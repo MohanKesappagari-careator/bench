@@ -39,15 +39,14 @@ export class UserService {
       isactive,
       usertoken,
     });
-    console.log(user.userid, 'uuuu');
-    setTimeout(async () => {
-      await this.userrole.create({
-        roleid,
-        userid: user.userid,
-      });
-    }, 400);
+    const USER = await this.userRepo.save(user);
+    const role = await this.userrole.create({
+      roleid,
+      userid: USER.userid,
+    });
+    console.log(role);
 
-    return await this.userRepo.save(user);
+    return USER;
   }
 
   async hashPassword(password: string): Promise<string> {

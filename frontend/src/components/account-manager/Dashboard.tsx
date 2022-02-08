@@ -1,24 +1,47 @@
-import { useQuery } from "@apollo/client";
-import { Card, Col, Row, Spin } from "antd";
-import { Content } from "antd/lib/layout/layout";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import CONSTANTS from "../../constants";
-import STYLES from "../../constants/style";
-import "../../css/DashboardStyle.css";
-import ACCOUNT_MANAGER_SERVICE from "../../services/AccountManagerService";
-import { Store } from "../../types/Redux";
+import { useQuery } from '@apollo/client';
+import { Card, Col, Row, Spin } from 'antd';
+import { Content } from 'antd/lib/layout/layout';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import CONSTANTS from '../../constants';
+import STYLES from '../../constants/style';
+import '../../css/DashboardStyle.css';
+import ACCOUNT_MANAGER_SERVICE from '../../services/AccountManagerService';
+import { Store } from '../../types/Redux';
 
 export default function Dashboard() {
   const name = useSelector((store: Store) => store.userSession.user?.username);
+  const userid = useSelector((store: Store) => store.userSession.user?.userid);
   const navgiate = useNavigate();
   const [count, setCount] = useState<any>({});
-  const A = useQuery(ACCOUNT_MANAGER_SERVICE.A_COUNT);
-  const V = useQuery(ACCOUNT_MANAGER_SERVICE.V_COUNT);
-  const B = useQuery(ACCOUNT_MANAGER_SERVICE.B_COUNT);
-  const L = useQuery(ACCOUNT_MANAGER_SERVICE.L_COUNT);
+  const A = useQuery(ACCOUNT_MANAGER_SERVICE.AM_A_COUNT, {
+    variables: {
+      accountmanagerid: userid,
+    },
+  });
+  const V = useQuery(ACCOUNT_MANAGER_SERVICE.AM_V_COUNT, {
+    variables: {
+      accountmanagerid: userid,
+    },
+  });
+  const B = useQuery(ACCOUNT_MANAGER_SERVICE.AM_B_COUNT, {
+    variables: {
+      accountmanagerid: userid,
+    },
+  });
+  const L = useQuery(ACCOUNT_MANAGER_SERVICE.AM_L_COUNT, {
+    variables: {
+      accountmanagerid: userid,
+    },
+  });
 
+  useEffect(() => {
+    A.refetch();
+    B.refetch();
+    L.refetch();
+    V.refetch();
+  }, []);
   console.log(count);
   if (A.loading || V.loading || B.loading || L.loading) {
     return <Spin />;
@@ -26,13 +49,13 @@ export default function Dashboard() {
   return (
     <Content
       className="content"
-      style={{ marginLeft: "1rem", marginTop: "1rem" }}
+      style={{ marginLeft: '1rem', marginTop: '1rem' }}
     >
       <Card className="Dash-background">
-        <h1 style={{ textAlign: "center" }}>
+        <h1 style={{ textAlign: 'center' }}>
           Welcome to Careator Bench Management Application.
         </h1>
-        <h1 style={{ textAlign: "center" }}>Hi {name} 🦁</h1>
+        <h1 style={{ textAlign: 'center' }}>Hi {name} 🦁</h1>
 
         <Row gutter={10} className="DashRow">
           {/* <Col span={6}>
@@ -61,7 +84,7 @@ export default function Dashboard() {
             >
               <h4 className="addSize center">
                 {CONSTANTS.STATUS[1]} <br />
-                {V.data.findVCount}
+                {V.data.findAMVCount}
               </h4>
             </Card>
           </Col>
@@ -76,7 +99,7 @@ export default function Dashboard() {
             >
               <h4 className="addSize center">
                 {CONSTANTS.STATUS[3]} <br />
-                {L.data.findLCount}
+                {L.data.findAMLCount}
               </h4>
             </Card>
           </Col>
@@ -91,7 +114,7 @@ export default function Dashboard() {
             >
               <h4 className="addSize center">
                 {CONSTANTS.STATUS[2]} <br />
-                {B.data.findBCount}
+                {B.data.findAMBCount}
               </h4>
             </Card>
           </Col>

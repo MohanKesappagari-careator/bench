@@ -1,5 +1,16 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Document } from 'src/document/entities/document.entity';
+import { Note } from 'src/notes/entities/note.entity';
+import { User } from 'src/user/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -8,45 +19,58 @@ export class Resource {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
-  @Column()
-  firstname: string;
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  fullname: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  middlename: string;
-
-  @Field()
-  @Column()
-  lastname: string;
-
-  @Field()
-  @Column()
-  skills: string;
+  empid: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  briefintro: string;
-
-  @Field()
-  @Column()
-  personalemail: string;
-
-  @Field()
-  @Column()
-  careatoremail: string;
-
-  @Field()
-  @Column()
-  phone: string;
+  doj: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  education: string;
+  gender: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  totalexperience: string;
+  primaryphonenumber: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  secondaryphonenumber: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  emailid: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  personalemailid: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  designation?: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  accname: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  accountmanagerid: string;
+
+  @Field(() => User, { nullable: true })
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'accountmanagerid', referencedColumnName: 'userid' })
+  accmanager: User;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  skills?: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -54,19 +78,7 @@ export class Resource {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
-  location: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  billrate: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  releasereason: string;
-
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  statuscode: string;
+  projectreleasereason: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -74,8 +86,27 @@ export class Resource {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
+  statuscode: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   resumeid: number;
 
+  @Field(() => Document, { nullable: true })
+  @OneToOne(() => Document, (document) => document.resource, {
+    nullable: true,
+    eager: true,
+  })
+  document: Document;
+
+  @Field(() => [Note], { nullable: true })
+  @OneToMany(() => Note, (note) => note.resource, {
+    nullable: true,
+    eager: true,
+  })
+  notes: Note[];
+
+  @Field()
   @Column({
     nullable: false,
     type: 'timestamp',
@@ -103,4 +134,7 @@ export class Resource {
   @Field({ nullable: true })
   @Column({ nullable: false, default: true })
   isactive: boolean;
+  @Field({ nullable: true })
+  @Column({ nullable: false, default: false })
+  isam: boolean;
 }

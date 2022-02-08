@@ -1,4 +1,6 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
+import axios from 'axios';
+import CONSTANTS from '../constants';
 
 const USER_LOGIN = gql`
   mutation Mutation($login: LoginInput!) {
@@ -80,6 +82,16 @@ const ALL_USERS = gql`
   }
 `;
 
+const GET_ACC = gql`
+  query {
+    findacc {
+      user {
+        userid
+        username
+      }
+    }
+  }
+`;
 const UPDATE_USER = gql`
   mutation ($updateUserInput: UpdateUserInput!) {
     updateUser(updateUserInput: $updateUserInput) {
@@ -87,6 +99,22 @@ const UPDATE_USER = gql`
     }
   }
 `;
+
+const FIND_BY_ROLE = gql`
+  query ($role: String!) {
+    findByRole(role: $role) {
+      id
+    }
+  }
+`;
+const SEND_MAIL = async (mailerdata: any) => {
+  const url = `${CONSTANTS.DATABASE_URL}/sendmail`;
+  return await axios.post(url, mailerdata);
+};
+const SEND_MAIL_RM = async (mailerdata: any) => {
+  const url = `${CONSTANTS.DATABASE_URL}/sendmailrm`;
+  return await axios.post(url, mailerdata);
+};
 const USER_SERVICE = {
   USER_LOGIN,
   FORGOT_PASSWORD,
@@ -96,5 +124,9 @@ const USER_SERVICE = {
   CREATE_USER,
   ALL_USERS,
   UPDATE_USER,
+  GET_ACC,
+  FIND_BY_ROLE,
+  SEND_MAIL,
+  SEND_MAIL_RM,
 };
 export default USER_SERVICE;

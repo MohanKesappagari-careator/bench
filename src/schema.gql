@@ -53,29 +53,46 @@ type UserRole {
   role: Role!
 }
 
+type Note {
+  id: ID!
+  notes: String
+  resourceid: Float
+  resource: Resource!
+  user: User!
+  createdat: DateTime!
+  updatedat: DateTime!
+  createdby: String
+  updatedby: String
+}
+
 type Resource {
   id: ID!
-  firstname: String!
-  middlename: String
-  lastname: String!
-  skills: String!
-  briefintro: String
-  personalemail: String!
-  careatoremail: String!
-  phone: String!
-  education: String
-  totalexperience: String
+  fullname: String
+  empid: String
+  doj: String
+  gender: String
+  primaryphonenumber: String
+  secondaryphonenumber: String
+  emailid: String
+  personalemailid: String
+  designation: String
+  accname: String
+  accountmanagerid: String
+  accmanager: User
+  skills: String
   projectreleasedate: String
-  location: String
-  billrate: String
-  releasereason: String
-  statuscode: String
+  projectreleasereason: String
   comments: String
+  statuscode: String
   resumeid: Float
+  document: Document
+  notes: [Note!]
+  createdat: DateTime!
   updatedat: DateTime!
   createdby: String
   updatedby: String
   isactive: Boolean
+  isam: Boolean
 }
 
 type Document {
@@ -110,17 +127,28 @@ type Query {
   role(id: Int!): Role!
   findByRole(role: String!): Role!
   alluserrole: [UserRole!]!
+  findacc: [UserRole!]!
   userrole(id: Int!): UserRole!
   alldocument: [Document!]!
   document(id: Int!): Document!
   allstatuss: [Status!]!
   status(statuscode: String!): Status!
   allresources: [Resource!]!
+  findActiveAndInActiveResource(isactive: Boolean!): [Resource!]!
+  findbyAccountManger(accountmanagerid: String!): [Resource!]!
+  findByEmail(careatoremail: String!): Resource!
+  findAMACount(accountmanagerid: String!): Float!
+  findAMVCount(accountmanagerid: String!): Float!
+  findAMBCount(accountmanagerid: String!): Float!
+  findAMLCount(accountmanagerid: String!): Float!
   findACount: Float!
   findVCount: Float!
   findBCount: Float!
   findLCount: Float!
   resource(id: Int!): Resource!
+  allnotes: [Note!]!
+  note(id: Int!): Note!
+  findNoteByResourceid(resourceid: Int!): [Note!]!
 }
 
 type Mutation {
@@ -145,6 +173,9 @@ type Mutation {
   createResource(createResourceInput: CreateResourceInput!): Resource!
   updateResource(updateResourceInput: UpdateResourceInput!): Resource!
   removeResource(id: Int!): Resource!
+  createNote(createNoteInput: CreateNoteInput!): Note!
+  updateNote(updateNoteInput: UpdateNoteInput!): Note!
+  removeNote(id: Int!): Note!
 }
 
 input CreateUserInput {
@@ -245,6 +276,7 @@ input UpdateDocumentInput {
 }
 
 input CreateStatusInput {
+  statuscode: String!
   status: String!
   createdby: String
   updatedby: String
@@ -252,56 +284,73 @@ input CreateStatusInput {
 }
 
 input UpdateStatusInput {
+  statuscode: String
   status: String
   createdby: String
   updatedby: String
   isactive: Boolean
-  statuscode: String!
 }
 
 input CreateResourceInput {
-  firstname: String
-  middlename: String
-  lastname: String
+  fullname: String
+  empid: String
+  doj: String
+  gender: String
+  primaryphonenumber: String
+  secondaryphonenumber: String
+  emailid: String
+  personalemailid: String
+  designation: String
+  accname: String
+  accountmanagerid: String
   skills: String
-  briefintro: String
-  personalemail: String
-  careatoremail: String
-  phone: String
-  education: String
-  totalexperience: String
   projectreleasedate: String
-  location: String
-  billrate: String
-  releasereason: String
+  projectreleasereason: String
   statuscode: String
-  comments: String
   resumeid: Float
   createdby: String
   updatedby: String
+  comments: String
   isactive: Boolean
+  isam: Boolean
 }
 
 input UpdateResourceInput {
-  firstname: String
-  middlename: String
-  lastname: String
+  fullname: String
+  empid: String
+  doj: String
+  gender: String
+  primaryphonenumber: String
+  secondaryphonenumber: String
+  emailid: String
+  personalemailid: String
+  designation: String
+  accname: String
+  accountmanagerid: String
   skills: String
-  briefintro: String
-  personalemail: String
-  careatoremail: String
-  phone: String
-  education: String
-  totalexperience: String
   projectreleasedate: String
-  location: String
-  billrate: String
-  releasereason: String
+  projectreleasereason: String
   statuscode: String
-  comments: String
   resumeid: Float
   createdby: String
   updatedby: String
+  comments: String
   isactive: Boolean
+  isam: Boolean
+  id: Int!
+}
+
+input CreateNoteInput {
+  notes: String
+  createdby: String
+  updatedby: String
+  resourceid: Float
+}
+
+input UpdateNoteInput {
+  notes: String
+  createdby: String
+  updatedby: String
+  resourceid: Float
   id: Int!
 }

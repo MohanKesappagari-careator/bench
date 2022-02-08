@@ -21,14 +21,34 @@ export class MailService {
     });
   }
 
-  async sendEmail(sendTo: string, temp: string, data: any = {}, subject: any) {
+  async sendEmail(sendto: string, temp: string, data: any = {}, subject: any) {
     await this.mailerService.sendMail({
-      to: sendTo,
+      to: sendto,
       subject: subject,
-      template: `./${temp}`,
+      template: `/${temp}`,
 
       context: {
-        emailData: data,
+        username: data.username,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        status: data.status,
+      },
+    });
+  }
+  async sendEmailRM(
+    sendto: string,
+    temp: string,
+    data: any = {},
+    subject: any,
+  ) {
+    await this.mailerService.sendMail({
+      to: sendto,
+      subject: subject,
+      template: `/${temp}`,
+
+      context: {
+        username: data.username,
+        fullname: data.fullname || '',
       },
     });
   }

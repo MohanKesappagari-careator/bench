@@ -1,9 +1,9 @@
-import { useMutation } from "@apollo/client";
-import { Button, Col, Form, Input, Row, Select } from "antd";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import CONSTANTS from "../../constants";
-import USER_SERVICE from "../../services/UserService";
+import { useMutation } from '@apollo/client';
+import { Button, Col, Form, Input, Row, Select } from 'antd';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import CONSTANTS from '../../constants';
+import USER_SERVICE from '../../services/UserService';
 const { Option } = Select;
 export default function CreateUser() {
   const [form] = Form.useForm();
@@ -13,7 +13,7 @@ export default function CreateUser() {
     console.log(values);
     create({
       variables: {
-        createResourceInput: {
+        createUserInput: {
           username: values.username,
           email: values.email,
           mobile: values.mobile,
@@ -32,16 +32,16 @@ export default function CreateUser() {
               name="username"
               required
               tooltip="firstname"
-              rules={[{ required: true, message: "Please input  Name!" }]}
+              rules={[{ required: true, message: 'Please input  Name!' }]}
             >
               <Input placeholder=" Name" />
-            </Form.Item>{" "}
+            </Form.Item>{' '}
           </Col>
 
           <Col md={{ span: 7, offset: 1 }}>
             <Form.Item label="Email" name="email">
               <Input placeholder="Email" />
-            </Form.Item>{" "}
+            </Form.Item>{' '}
           </Col>
         </Row>
         <Row>
@@ -50,7 +50,7 @@ export default function CreateUser() {
               label="Mobile"
               name="mobile"
               required
-              rules={[{ required: true, message: "Please input Mobile!" }]}
+              rules={[{ required: true, message: 'Please input Mobile!' }]}
             >
               <Input placeholder="Mobile" />
             </Form.Item>
@@ -61,9 +61,9 @@ export default function CreateUser() {
               label="Role"
               required
               name="roleid"
-              rules={[{ required: true, message: "Please select role" }]}
+              rules={[{ required: true, message: 'Please select role' }]}
             >
-              <Select style={{ width: "100%" }} placeholder="Please select">
+              <Select style={{ width: '100%' }} placeholder="Please select">
                 <Option value={2}>{CONSTANTS.ROLE_NAME[1]}</Option>
                 <Option value={3}>{CONSTANTS.ROLE_NAME[2]}</Option>
                 <Option value={4}>{CONSTANTS.ROLE_NAME[3]}</Option>
@@ -78,7 +78,7 @@ export default function CreateUser() {
               <Button
                 type="primary"
                 htmlType="submit"
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
               >
                 Submit
               </Button>
@@ -88,9 +88,9 @@ export default function CreateUser() {
             <Form.Item>
               <Button
                 type="primary"
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 danger
-                onClick={() => nav("/manageuser")}
+                onClick={() => nav('/manageuser')}
               >
                 Cancel
               </Button>

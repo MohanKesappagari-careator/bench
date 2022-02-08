@@ -37,6 +37,11 @@ export class UserRoleResolver {
   findAll() {
     return this.userroleService.findAll();
   }
+  @Query(() => [UserRole], { name: 'findacc' })
+  async findacc() {
+    const ROLE = await this.roleservice.findRole('AM');
+    return this.userroleService.findbyroleid(ROLE.id);
+  }
 
   @Query(() => UserRole, { name: 'userrole' })
   findOne(@Args('id', { type: () => Int }) id: number) {

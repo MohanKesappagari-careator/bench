@@ -16,8 +16,6 @@ export class AuthResolver {
     @Args('login') login: LoginInput,
     @Res() res: Response,
   ): Promise<Jwt> {
-    console.log(res);
-
     const token = await this.authService.login(login);
 
     return token;

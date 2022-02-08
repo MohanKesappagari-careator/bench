@@ -22,7 +22,7 @@ export default function AvatarMenu() {
       </Menu.Item>
       <Menu.Item onClick={logout} key={2}>
         <p style={{ color: "red" }}>
-          <LogoutOutlined spin /> Logout
+          <LogoutOutlined /> Logout
         </p>
       </Menu.Item>
     </Menu>

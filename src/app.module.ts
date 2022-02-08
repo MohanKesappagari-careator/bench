@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { MailModule } from './auth/mail/mail.module';
 import { config } from './config';
 import { DocumentModule } from './document/document.module';
+import { NotesModule } from './notes/notes.module';
 import { ResourcesModule } from './resources/resources.module';
 import { StatusModule } from './status/status.module';
 import { UserModule } from './user/user.module';
@@ -26,7 +27,7 @@ import { UserModule } from './user/user.module';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../frontend', 'build'),
-      exclude: ['/graphql*'],
+      exclude: ['/api*', '/graphql'],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -41,6 +42,7 @@ import { UserModule } from './user/user.module';
     }),
     StatusModule,
     ResourcesModule,
+    NotesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

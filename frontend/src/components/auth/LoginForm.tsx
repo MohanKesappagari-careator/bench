@@ -1,29 +1,29 @@
-import { LoginOutlined } from "@ant-design/icons";
-import { useMutation } from "@apollo/client";
-import { Button, Form, Input, Typography } from "antd";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import STYLES from "../../constants/style";
-import UserActions from "../../redux/actions/UserActions";
-import USER_SERVICE from "../../services/UserService";
+import { LoginOutlined } from '@ant-design/icons';
+import { useMutation } from '@apollo/client';
+import { Button, Form, Input, Typography } from 'antd';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import STYLES from '../../constants/style';
+import UserActions from '../../redux/actions/UserActions';
+import USER_SERVICE from '../../services/UserService';
 
 const { Text } = Typography;
 const LoginForm = (props: any) => {
   const { forgot } = props;
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const nav = useNavigate();
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [userId, setUserId] = useState('');
   const [login] = useMutation(USER_SERVICE.USER_LOGIN);
 
   const dispatch = useDispatch();
 
   const fromStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "1rem",
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '1rem',
   };
 
   const onFinish = async (values: any) => {
@@ -37,12 +37,12 @@ const LoginForm = (props: any) => {
         },
       });
       if (log.data.login.firsttimelogin === true) {
-        window.localStorage.setItem("userId", log.data.login.userid);
+        window.localStorage.setItem('userId', log.data.login.userid);
 
-        nav("/reset/:id/:token");
+        nav('/reset/:id/:token');
       } else {
         dispatch(UserActions.loginSuccess(log.data.login));
-        window.localStorage.setItem("token", log.data.login.token);
+        window.localStorage.setItem('token', log.data.login.token);
       }
 
       // loginSucess(data); //adding user data to redux store
@@ -53,13 +53,7 @@ const LoginForm = (props: any) => {
 
   return (
     <>
-      <h2
-        style={{
-          color: "white",
-        }}
-      >
-        Login
-      </h2>
+      <h2>Login</h2>
       <Text type="danger">{error}</Text>
 
       <Form
@@ -69,7 +63,7 @@ const LoginForm = (props: any) => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         style={{
-          color: "white",
+          color: 'white',
         }}
       >
         <Form.Item
@@ -78,8 +72,8 @@ const LoginForm = (props: any) => {
           rules={[
             {
               required: true,
-              message: "Please enter valid email!",
-              type: "email",
+              message: 'Please enter valid email!',
+              type: 'email',
             },
           ]}
         >
@@ -94,7 +88,7 @@ const LoginForm = (props: any) => {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: "Please enter password" }]}
+          rules={[{ required: true, message: 'Please enter password' }]}
         >
           <Input.Password
             placeholder="Enter Password"
@@ -107,11 +101,11 @@ const LoginForm = (props: any) => {
         </Form.Item>
         <Form.Item style={fromStyle}>
           <Button type="primary" htmlType="submit" style={STYLES.BORDER_RADIUS}>
-            <LoginOutlined spin /> Login
+            <LoginOutlined /> Login
           </Button>
           <Link
             to="/"
-            style={{ float: "right", color: "white" }}
+            style={{ float: 'right', color: 'blue' }}
             onClick={forgot}
           >
             Forgot Password

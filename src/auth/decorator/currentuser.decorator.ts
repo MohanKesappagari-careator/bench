@@ -12,7 +12,6 @@ export const CurrentUser = createParamDecorator(
     if (token == null) return requset.sendStatus(401);
 
     const user: any = await jwt.verify(token, JwtSecret);
-    logger.log( 'Current User',JSON.stringify(user));
     return user;
   },
 );

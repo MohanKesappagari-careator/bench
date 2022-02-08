@@ -1,6 +1,14 @@
 const HOST = window.location.host;
-const DATABASE_URL = HOST;
-const STATUS: string[] = ['ALLOCATED', 'AVAILABE', 'BLOCKED', 'LEAVE'];
+const DATABASE_URL = `http://localhost:5000`;
+
+const STATUS: string[] = [
+  'ALLOCATED',
+  'AVAILABLE',
+  'BLOCKED',
+  'LEAVE',
+  'NONBILLABLE',
+  'RESIGN',
+];
 
 const STATUS_LIST: any = [
   {
@@ -8,7 +16,7 @@ const STATUS_LIST: any = [
     value: 'A',
   },
   {
-    text: 'AVAILABE',
+    text: 'AVAILABLE',
     value: 'V',
   },
   {
@@ -19,9 +27,17 @@ const STATUS_LIST: any = [
     text: 'LEAVE',
     value: 'L',
   },
+  {
+    text: 'NONBILLABLE',
+    value: 'N',
+  },
+  {
+    text: 'RESIGN',
+    value: 'R',
+  },
 ];
 
-const STATUS_CODE: string[] = ['A', 'V', 'B', 'L'];
+const STATUS_CODE: string[] = ['A', 'V', 'B', 'L', 'N', 'R'];
 
 const ROLE: string[] = ['AD', 'AM', 'RM', 'HR', 'L'];
 const ROLE_NAME: string[] = [
@@ -31,7 +47,14 @@ const ROLE_NAME: string[] = [
   'Human Resources',
   'LeaderShip',
 ];
-const COLORS: string[] = ['magenta', 'cyan', 'lime', 'green'];
+const COLORS: string[] = [
+  'magenta',
+  'cyan',
+  'lime',
+  'green',
+  'geekblue',
+  'red',
+];
 const CONSTANTS = {
   HOST,
   DATABASE_URL,

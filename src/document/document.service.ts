@@ -2,15 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { extname } from 'path';
 import { Repository } from 'typeorm';
+import uploadFileInAWS from './aws.service';
 import { CreateDocumentInput } from './dto/create-document.input';
 import { UpdateDocumentInput } from './dto/update-document.input';
 import { Document } from './entities/document.entity';
 
 @Injectable()
 export class DocumentService {
-  updateDocumentInLocal(userid: any, file: Express.Multer.File) {
-    throw new Error('Method not implemented.');
-  }
   constructor(
     @InjectRepository(Document)
     private readonly documentRepo: Repository<Document>,
@@ -48,6 +46,7 @@ export class DocumentService {
     });
     return FILE;
   }
+
   async updateDocument(resourceid: any, file: Express.Multer.File) {
     const FIND = await this.documentRepo.findOne({ resourceid });
     const Cr = await this.documentRepo.create({
@@ -75,5 +74,78 @@ export class DocumentService {
           },
           Cr,
         );
+  }
+
+  async createDocumentInAWS(usrId: any, file: Express.Multer.File) {
+    try {
+      const { awsFilePath, awsFileName } = await uploadFileInAWS(
+        file,
+        usrId,
+        'document',
+      );
+      const createdDocument = await this.documentRepo.save({
+        documenttype: file.fieldname,
+        documentname: file.originalname,
+        description: file.mimetype,
+        fileurl: awsFilePath,
+        filename: awsFileName,
+        fileextension: extname(file.originalname),
+        resourceid: usrId,
+      });
+      return this.documentRepo.save(createdDocument);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async updateDocumentInAWS(
+    usrId: any,
+    file: Express.Multer.File,
+    docId: number,
+  ) {
+    console.log(docId, 'id');
+
+    try {
+      const FIND = await this.documentRepo.findOne(docId);
+
+      const { awsFilePath, awsFileName } = await uploadFileInAWS(
+        file,
+        usrId,
+        'document',
+      );
+
+      const createdDocument = await this.documentRepo.create({
+        documenttype: file.fieldname,
+        documentname: file.originalname,
+        description: file.mimetype,
+        fileurl: awsFilePath,
+        filename: awsFileName,
+        fileextension: extname(file.originalname),
+        resourceid: usrId,
+      });
+      !FIND
+        ? await this.documentRepo.save({
+            documenttype: file.fieldname,
+            documentname: file.originalname,
+            description: file.mimetype,
+            fileurl: awsFilePath,
+            filename: awsFileName,
+            fileextension: extname(file.originalname),
+            resourceid: usrId,
+          })
+        : await this.documentRepo.update(
+            { id: docId, resourceid: usrId },
+            {
+              documenttype: file.fieldname,
+              documentname: file.originalname,
+              description: file.mimetype,
+              fileurl: awsFilePath,
+              filename: awsFileName,
+              fileextension: extname(file.originalname),
+            },
+          );
+      //const updatedDoc = await this.updateDocStatusOfAllDocsOfUser(usrId);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

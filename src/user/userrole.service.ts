@@ -37,4 +37,12 @@ export class UserRoleService {
 
     return this.userroleRepo.findOne({ userid });
   }
+
+  findbyroleid(roleid: number) {
+    return this.userroleRepo.find({
+      where: {
+        roleid,
+      },
+    });
+  }
 }

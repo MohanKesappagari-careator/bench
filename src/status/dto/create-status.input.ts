@@ -3,6 +3,8 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class CreateStatusInput {
   @Field()
+  statuscode: string;
+  @Field()
   status: string;
 
   @Field({ nullable: true })
