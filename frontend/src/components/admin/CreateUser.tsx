@@ -11,7 +11,7 @@ export default function CreateUser() {
   const [create] = useMutation(USER_SERVICE.CREATE_USER);
   const onFinish = async (values: any) => {
     console.log(values);
-    create({
+    await create({
       variables: {
         createUserInput: {
           username: values.username,
@@ -20,7 +20,9 @@ export default function CreateUser() {
           roleid: values.roleid,
         },
       },
-    });
+    })
+      .then(() => nav('/manageuser'))
+      .catch((e) => console.log(e));
   };
   return (
     <div className="top">
