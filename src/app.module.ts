@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -29,12 +29,22 @@ import { UserModule } from './user/user.module';
       rootPath: join(__dirname, '../frontend', 'build'),
       exclude: ['/api*', '/graphql'],
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) =>
-        configService.get('database'),
-      inject: [ConfigService],
+    TypeOrmModule.forRoot({
+      url: process.env.DATABASE_URL,
+      type: 'postgres',
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      synchronize: true, // This for development
+      autoLoadEntities: true,
     }),
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: (configService: ConfigService) =>
+    //     configService.get('database'),
+    //   inject: [ConfigService],
+    // }),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       introspection: true,
