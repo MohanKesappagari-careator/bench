@@ -23,7 +23,7 @@ export class ResourcesService {
   }
 
   async createDocumentInLocalxl(userid: string, filename: string) {
-    const file = reader.readFile(`./assets/${filename}`, { cellDates: true });
+    const file = reader.readFile(`C:/assets/${filename}`, { cellDates: true });
     const sheets = file.SheetNames;
     let data = [];
     for (let i = 0; i < sheets.length; i++) {

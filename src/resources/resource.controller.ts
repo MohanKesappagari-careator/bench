@@ -5,7 +5,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { UploadDocInLocalInterceptor } from 'src/uploadfile';
+import { UploadDocInLocalInterceptor } from './../uploadfile';
 import { ResourcesService } from './resources.service';
 
 @Controller('resource')
