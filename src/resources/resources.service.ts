@@ -36,15 +36,15 @@ export class ResourcesService {
 
         if (res.Bench_Status == '') {
           stat = 'V';
-        } else if (res.Bench_Status.toLowerCase() == 'NB') {
+        } else if (res.Bench_Status == 'NB') {
           stat = 'N';
-        } else if (res.Bench_Status.toLowerCase() == 'AL') {
+        } else if (res.Bench_Status == 'AL') {
           stat = 'A';
-        } else if (res.Bench_Status.toLowerCase() == 'AV') {
+        } else if (res.Bench_Status == 'AV') {
           stat = 'V';
-        } else if (res.Bench_Status.toLowerCase() == 'LV') {
+        } else if (res.Bench_Status == 'LV') {
           stat = 'L';
-        } else if (res.Bench_Status.toLowerCase() == 'BL') {
+        } else if (res.Bench_Status == 'BL') {
           stat = 'B';
         }
 
@@ -65,15 +65,15 @@ export class ResourcesService {
           projectreleasereason: res.Project_release_Reason,
           comments: res.RMG_Comments,
           statuscode:
-            res.Bench_Status.toLowerCase() == 'NB'
+            res.Bench_Status == 'NB'
               ? 'N'
-              : res.Bench_Status.toLowerCase() == 'AL'
+              : res.Bench_Status == 'AL'
               ? 'A'
-              : res.Bench_Status.toLowerCase() == 'AV'
+              : res.Bench_Status == 'AV'
               ? 'V'
-              : res.Bench_Status.toLowerCase() == 'LV'
+              : res.Bench_Status == 'LV'
               ? 'L'
-              : res.Bench_Status.toLowerCase() == 'BL'
+              : res.Bench_Status == 'BL'
               ? 'B'
               : null,
           createdby: userid,
