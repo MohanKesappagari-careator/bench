@@ -46,8 +46,6 @@ export class ResourcesService {
           stat = 'L';
         } else if (res.Bench_Status.toLowerCase() == 'BL') {
           stat = 'B';
-        } else {
-          stat = 'V';
         }
 
         data.push({
