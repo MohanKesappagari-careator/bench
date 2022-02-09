@@ -32,6 +32,8 @@ export class ResourcesService {
       });
 
       temp.forEach((res: any) => {
+        console.log(res);
+
         var stat = '';
 
         if (res.Bench_Status == '') {
@@ -70,7 +72,6 @@ export class ResourcesService {
         });
       });
     }
-    console.log(data);
 
     // const CREATE = this.resourceRepo.create(data);
 
