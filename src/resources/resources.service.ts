@@ -72,10 +72,11 @@ export class ResourcesService {
         });
       });
     }
+    console.log(data);
 
-    const CREATE = this.resourceRepo.create(data);
+    // const CREATE = this.resourceRepo.create(data);
 
-    return this.resourceRepo.save(CREATE);
+    // return this.resourceRepo.save(CREATE);
   }
 
   findAll() {
