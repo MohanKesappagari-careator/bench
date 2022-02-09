@@ -1,5 +1,5 @@
 const HOST = window.location.host;
-const DATABASE_URL = `https://${window.location.host}`;
+const DATABASE_URL = `http://localhost:5000`;
 
 const STATUS: string[] = [
   'ALLOCATED',
