@@ -32,8 +32,6 @@ export class ResourcesService {
       });
 
       temp.forEach((res: any) => {
-        console.log(res);
-
         var stat = '';
 
         if (res.Bench_Status == '') {
@@ -51,7 +49,6 @@ export class ResourcesService {
         }
 
         data.push({
-          id: res.id,
           fullname: res.Full_Name,
           empid: res.Emp_ID,
           doj: res.DoJ,
@@ -67,11 +64,23 @@ export class ResourcesService {
           projectreleasedate: res.Project_Release_Date,
           projectreleasereason: res.Project_release_Reason,
           comments: res.RMG_Comments,
-          statuscode: stat,
+          statuscode:
+            res.Bench_Status.toLowerCase() == 'NB'
+              ? 'N'
+              : res.Bench_Status.toLowerCase() == 'AL'
+              ? 'A'
+              : res.Bench_Status.toLowerCase() == 'AV'
+              ? 'V'
+              : res.Bench_Status.toLowerCase() == 'LV'
+              ? 'L'
+              : res.Bench_Status.toLowerCase() == 'BL'
+              ? 'B'
+              : null,
           createdby: userid,
         });
       });
     }
+    console.log(data);
 
     // const CREATE = this.resourceRepo.create(data);
 
